@@ -1,0 +1,112 @@
+package com.example.heyii.service;
+
+import com.example.heyii.Entity.Etudiant;
+import com.example.heyii.repository.EtudiantRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+@CrossOrigin(origins = "*")
+public class EtudiantService implements IEtudiantService {
+
+    @Autowired
+
+    private EtudiantRepository etudiantRepository;
+
+    public List<Etudiant> findAll() {
+        return etudiantRepository.findAll();
+    }
+
+    public Etudiant addEtudiant(Etudiant etudiant) {
+        etudiant.setIdUser(UUID.randomUUID().toString());
+        return etudiantRepository.save(etudiant);
+    }
+    public List<Etudiant> getEtudiantsByGroupe(String groupeId) {
+        return etudiantRepository.findByGrpClass_IdGrp(groupeId);
+    }
+
+    public Etudiant updateEtudiant(String id, Etudiant updatedEtudiant) {
+        return etudiantRepository.findById(id)
+                .map(etudiant -> {
+                    etudiant.setNom(updatedEtudiant.getNom());
+                    etudiant.setPrenom(updatedEtudiant.getPrenom());
+                    etudiant.setEmail(updatedEtudiant.getEmail());
+                    etudiant.setMotDePasse(updatedEtudiant.getMotDePasse());
+                    etudiant.setLogin(updatedEtudiant.getLogin());
+                    etudiant.setTelephone(updatedEtudiant.getTelephone());
+                    etudiant.setCin(updatedEtudiant.getCin());
+                    etudiant.setDateNaissance(updatedEtudiant.getDateNaissance());
+                    etudiant.setNiveau(updatedEtudiant.getNiveau());
+                    etudiant.setGrpClass(updatedEtudiant.getGrpClass());
+                    return etudiantRepository.save(etudiant);
+                })
+                .orElse(null);
+    }
+
+    public void deleteEtudiant(String id) {
+        etudiantRepository.deleteById(id);
+    }
+    public Optional<Etudiant> getEtudiantById(String id) {
+        return etudiantRepository.findById(id);
+    }
+
+}/*package com.example.heyii.service;
+
+import com.example.heyii.Entity.Etudiant;
+import com.example.heyii.repository.EtudiantRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Service
+@CrossOrigin(origins = "*")
+public class EtudiantService implements IEtudiantService {
+
+    @Autowired
+
+    private EtudiantRepository etudiantRepository;
+
+    public List<Etudiant> findAll() {
+        return etudiantRepository.findAll();
+    }
+
+    public Etudiant addEtudiant(Etudiant etudiant) {
+        etudiant.setIdUser(UUID.randomUUID().toString());
+        return etudiantRepository.save(etudiant);
+    }
+
+    public Etudiant updateEtudiant(String id, Etudiant updatedEtudiant) {
+        return etudiantRepository.findById(id)
+                .map(etudiant -> {
+                    etudiant.setNom(updatedEtudiant.getNom());
+                    etudiant.setPrenom(updatedEtudiant.getPrenom());
+                    etudiant.setEmail(updatedEtudiant.getEmail());
+                    etudiant.setMotDePasse(updatedEtudiant.getMotDePasse());
+                    etudiant.setLogin(updatedEtudiant.getLogin());
+                    etudiant.setTelephone(updatedEtudiant.getTelephone());
+                    etudiant.setCin(updatedEtudiant.getCin());
+                    etudiant.setDateNaissance(updatedEtudiant.getDateNaissance());
+                    etudiant.setNiveau(updatedEtudiant.getNiveau());
+                    etudiant.setGrpClass(updatedEtudiant.getGrpClass());
+                    return etudiantRepository.save(etudiant);
+                })
+                .orElse(null);
+    }
+
+    public void deleteEtudiant(String id) {
+        etudiantRepository.deleteById(id);
+    }
+    public Optional<Etudiant> getEtudiantById(String id) {
+        return etudiantRepository.findById(id);
+    }
+
+}*/
